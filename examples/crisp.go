@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/njnygaard/gg"
+	"github.com/fogleman/gg"
 )
 
 func main() {

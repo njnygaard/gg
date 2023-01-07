@@ -4,7 +4,7 @@ import (
 	"math"
 	"math/rand"
 
-	"github.com/njnygaard/gg"
+	"github.com/fogleman/gg"
 )
 
 type Point struct {

@@ -3,7 +3,7 @@ package main
 import (
 	"image/color"
 
-	"github.com/njnygaard/gg"
+	"github.com/fogleman/gg"
 )
 
 const (

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/njnygaard/gg"
+import "github.com/fogleman/gg"
 
 var lines = []string{
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
