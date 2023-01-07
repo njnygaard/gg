@@ -79,10 +79,40 @@ type Context struct {
 	stack         []*Context
 }
 
+type ContextGray struct {
+	width         int
+	height        int
+	rasterizer    *raster.Rasterizer
+	im            *image.Gray
+	mask          *image.Alpha
+	color         color.Color
+	fillPattern   Pattern
+	strokePattern Pattern
+	strokePath    raster.Path
+	fillPath      raster.Path
+	start         Point
+	current       Point
+	hasCurrent    bool
+	dashes        []float64
+	dashOffset    float64
+	lineWidth     float64
+	lineCap       LineCap
+	lineJoin      LineJoin
+	fillRule      FillRule
+	fontFace      font.Face
+	fontHeight    float64
+	matrix        Matrix
+	stack         []*Context
+}
+
 // NewContext creates a new image.RGBA with the specified width and height
 // and prepares a context for rendering onto that image.
 func NewContext(width, height int) *Context {
 	return NewContextForRGBA(image.NewRGBA(image.Rect(0, 0, width, height)))
+}
+
+func NewContextGray(width, height int) *ContextGray {
+	return NewContextForGray(image.NewGray(image.Rect(0, 0, width, height)))
 }
 
 // NewContextForImage copies the specified image into a new image.RGBA
@@ -97,6 +127,25 @@ func NewContextForRGBA(im *image.RGBA) *Context {
 	w := im.Bounds().Size().X
 	h := im.Bounds().Size().Y
 	return &Context{
+		width:         w,
+		height:        h,
+		rasterizer:    raster.NewRasterizer(w, h),
+		im:            im,
+		color:         color.Transparent,
+		fillPattern:   defaultFillStyle,
+		strokePattern: defaultStrokeStyle,
+		lineWidth:     1,
+		fillRule:      FillRuleWinding,
+		fontFace:      basicfont.Face7x13,
+		fontHeight:    13,
+		matrix:        Identity(),
+	}
+}
+
+func NewContextForGray(im *image.Gray) *ContextGray {
+	w := im.Bounds().Size().X
+	h := im.Bounds().Size().Y
+	return &ContextGray{
 		width:         w,
 		height:        h,
 		rasterizer:    raster.NewRasterizer(w, h),
